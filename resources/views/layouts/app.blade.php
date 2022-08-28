@@ -12,9 +12,12 @@
         @include('commons.navbar')
 
         <div class="container">
+            {{-- エラーメッセージ --}}
+            @include('commons.error_messages')
+
             @yield('content')
         </div>
-
+        
         <!-- JavaScriptの指定は省略 -->
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
