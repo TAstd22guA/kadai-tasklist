@@ -5,9 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
+   public function __construct()
+   {
+       $this->middleware('auth');
+   }
+   
+   private function checkMyData(Task$task){
+       if($task->user_id != Auth::user()->id){
+           return redirect()->route('tasks.index');
+       }
+   }
+   
+   
     /**
      * Display a listing of the resource.
      *
@@ -17,12 +30,14 @@ class TasksController extends Controller
     public function index()
     {
         // タスク一覧を取得
-        $tasks = Task::all();
-
+        //$tasks = Task::all();
         // タスク一覧ビューでそれを表示
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
+        //return view('tasks.index', [
+        //    'tasks' => $tasks,
+        //]);
+        
+        $tasks = Auth::user() -> tasks;
+        return view("tasks.index",compact("tasks"));
     }
 
     /**
@@ -49,16 +64,26 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+     
     // postでtasks/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
+         // バリデーション
+        $request->validate([
+            'content' => 'required',
+            'status' => 'required|max:10',   // 追加
+        ]);
+        
         // タスクを作成
         $task = new Task;
         $task->content = $request->content;
+        $task->status = $request->status;
+        $task->user_id = Auth::user()->id;
         $task->save();
 
         // トップページへリダイレクトさせる
         return redirect('/');
+        //return redirect()->route('tasks.show',$task);
     }
 
     /**
@@ -72,13 +97,21 @@ class TasksController extends Controller
     // getでtasks/idにアクセスされた場合の「取得表示処理」
     public function show($id)
     {
-        // idの値でタスクを検索して取得
-        $task = Task::findOrFail($id);
+        
+    //ログインのチェック       
+    function show(Task$task){
+    $this->checkMyData($task);
+    return view("tasks.show",compact("task"));
+    }
 
-        // タスク詳細ビューでそれを表示
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+    // idの値でタスクを検索して取得
+    $task = Task::findOrFail($id);
+
+    // タスク詳細ビューでそれを表示
+    return view('tasks.show', [
+    'task' => $task,
+    ]);
+        
     }
 
     /**
@@ -88,16 +121,22 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
      
-     
     // getでtasks/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
-        // idの値でタスクを検索して取得
-        $task = Task::findOrFail($id);
+        
+    //ログインのチェック       
+    function edit(Task$task){
+    $this->checkMyData($task);
+    return view("tasks.edit",compact("task"));
+    }
 
-        // タスク編集ビューでそれを表示
-        return view('tasks.edit', [
-            'task' => $task,
+    // idの値でタスクを検索して取得
+    $task = Task::findOrFail($id);
+
+    // タスク編集ビューでそれを表示
+    return view('tasks.edit', [
+    'task' => $task,
         ]);
     }
 
@@ -112,14 +151,29 @@ class TasksController extends Controller
     // putまたはpatchでtasks/idにアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
-        // idの値でタスクを検索して取得
-        $task = Task::findOrFail($id);
-        // タスクを更新
-        $task->content = $request->content;
-        $task->save();
+        
+    //ログインのチェック       
+    function update(Task$task){
+    $this->checkMyData($task);
+    return view("tasks.update",compact("task"));
+    }
+    
+    // バリデーション
+    $request->validate([
+    'content' => 'required',
+    'status' => 'required|max:10',   // 追加
+    ]);
+        
+    // idの値でタスクを検索して取得
+    $task = Task::findOrFail($id);
+    
+    // タスクを更新
+    $task->content = $request->content;
+    $task->status = $request->status;    // 追加
+    $task->save();
 
-        // トップページへリダイレクトさせる
-        return redirect('/');
+    // トップページへリダイレクトさせる
+    return redirect('/');
     }
 
     /**
@@ -132,12 +186,18 @@ class TasksController extends Controller
     // deleteでtasks/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        // idの値でタスクを検索して取得
-        $task = Task::findOrFail($id);
-        // タスクを削除
-        $task->delete();
+    //ログインのチェック       
+    function destroy(Task$task){
+    $this->checkMyData($task);
+    return view("tasks.destroy",compact("task"));
+    }
+        
+    // idの値でタスクを検索して取得
+    $task = Task::findOrFail($id);
+    // タスクを削除
+    $task->delete();
 
-        // トップページへリダイレクトさせる
-        return redirect('/');
+    // トップページへリダイレクトさせる
+    return redirect('/');
     }
 }
