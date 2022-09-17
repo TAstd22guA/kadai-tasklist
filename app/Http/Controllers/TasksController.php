@@ -78,7 +78,10 @@ class TasksController extends Controller
         $task = new Task;
         $task->content = $request->content;
         $task->status = $request->status;
+<<<<<<< HEAD
         $task->user_id = Auth::user()->id;
+=======
+>>>>>>> ae9da5399690ac8670f2f81e1529dfb6d20f5ad9
         $task->save();
 
         // トップページへリダイレクトさせる
@@ -151,6 +154,7 @@ class TasksController extends Controller
     // putまたはpatchでtasks/idにアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
+<<<<<<< HEAD
         
     //ログインのチェック       
     function update(Task$task){
@@ -174,6 +178,23 @@ class TasksController extends Controller
 
     // トップページへリダイレクトさせる
     return redirect('/');
+=======
+        // バリデーション
+        $request->validate([
+            'content' => 'required',
+            'status' => 'required|max:10',   // 追加
+        ]);
+        
+        // idの値でタスクを検索して取得
+        $task = Task::findOrFail($id);
+        // タスクを更新
+        $task->content = $request->content;
+        $task->status = $request->status;    // 追加
+        $task->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
+>>>>>>> ae9da5399690ac8670f2f81e1529dfb6d20f5ad9
     }
 
     /**
