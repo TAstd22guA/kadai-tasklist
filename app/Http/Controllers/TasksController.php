@@ -78,10 +78,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->content = $request->content;
         $task->status = $request->status;
-<<<<<<< HEAD
         $task->user_id = Auth::user()->id;
-=======
->>>>>>> ae9da5399690ac8670f2f81e1529dfb6d20f5ad9
         $task->save();
 
         // トップページへリダイレクトさせる
