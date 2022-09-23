@@ -181,7 +181,7 @@ class TasksController extends Controller
     // トップページへリダイレクトさせる
     return redirect('/');
     }
-}
+
     
     
 
@@ -206,14 +206,12 @@ class TasksController extends Controller
    
      // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
     if (\Auth::id() === $task->user_id) {
-        $task->delete();
-    }
-   
+       
     // タスクを削除
     $task->delete();
-
+    }
     // トップページへリダイレクトさせる
     return redirect('/');
     }
- 
+    }
 }
