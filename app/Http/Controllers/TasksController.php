@@ -98,20 +98,17 @@ class TasksController extends Controller
     public function show($id)
     {
         
-    //ログインのチェック       
-    function show(Task$task){
-    $this->checkMyData($task);
-    return view('tasks.show',compact('task'));
-    }
-
     // idの値でタスクを検索して取得
     $task = Task::findOrFail($id);
 
     // タスク詳細ビューでそれを表示
+    // ログインユーザー = タスク作成者なら編集画面へ
+    if (\Auth::id() === $task->user_id) {  
     return view('tasks.show', [
     'task' => $task,
-    ]);
-        
+        ]);
+    }
+    return redirect('/');
     }
 
     /**
@@ -124,12 +121,6 @@ class TasksController extends Controller
     // getでtasks/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
-        
-    //ログインのチェック       
-    function edit(Task$task){
-    $this->checkMyData($task);
-    return view('tasks.edit',compact('task'));
-    }
 
     // idの値でタスクを検索して取得
     $task = Task::findOrFail($id);
@@ -137,11 +128,11 @@ class TasksController extends Controller
     // タスク編集ビューでそれを表示
     // ログインユーザー = タスク作成者なら編集画面へ
     if (\Auth::id() === $task->user_id) {
-    return view('tasks.edit', [
-    'task' => $task,
+        return view('tasks.edit', [
+        'task' => $task,
         ]);
     // 編集画面に入れなかった場合はトップページへ
-    return redirect('/home');
+        return redirect('/');
     }
  }
     /**
@@ -156,17 +147,11 @@ class TasksController extends Controller
     public function update(Request $request, $id)
     {
         
-    //ログインのチェック       
-    function update(Task$task){
-    $this->checkMyData($task);
-    return view('tasks.update',compact('task'));
-    }
-    
-     // バリデーション
+    // バリデーション
     $request->validate([
     'content' => 'required',
     'status' => 'required|max:10',   // 追加
-    ]);
+        ]);
         
     // idの値でタスクを検索して取得
     $task = Task::findOrFail($id);
@@ -174,18 +159,15 @@ class TasksController extends Controller
     // タスクを更新
     // ログインユーザー = タスク作成者なら編集処理へ
     if (\Auth::id() === $task->user_id) {
-    $task->content = $request->content;
-    $task->status = $request->status;    // 追加
-    $task->save();
+        $task->content = $request->content;
+        $task->status = $request->status;    // 追加
+        $task->save();
     }
     // トップページへリダイレクトさせる
-    return redirect('/');
+        return redirect('/');
     }
 
     
-    
-
-   
     /**
      * Remove the specified resource from storage.
      *
@@ -196,10 +178,7 @@ class TasksController extends Controller
     // deleteでtasks/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-    //ログインのチェック       
-    function destroy(Task$task){
-    $this->checkMyData($task);
-    return view('tasks.destroy',compact('task'));
+
         
     // idの値でタスクを検索して取得
     $task = Task::findOrFail($id);
@@ -212,6 +191,5 @@ class TasksController extends Controller
     }
     // トップページへリダイレクトさせる
     return redirect('/');
-    }
     }
 }
