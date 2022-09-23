@@ -37,7 +37,7 @@ class TasksController extends Controller
         //]);
         
         $tasks = Auth::user() -> tasks;
-        return view("tasks.index",compact("tasks"));
+        return view('tasks.index',compact('tasks'));
     }
 
     /**
@@ -101,7 +101,7 @@ class TasksController extends Controller
     //ログインのチェック       
     function show(Task$task){
     $this->checkMyData($task);
-    return view("tasks.show",compact("task"));
+    return view('tasks.show',compact('task'));
     }
 
     // idの値でタスクを検索して取得
@@ -128,7 +128,7 @@ class TasksController extends Controller
     //ログインのチェック       
     function edit(Task$task){
     $this->checkMyData($task);
-    return view("tasks.edit",compact("task"));
+    return view('tasks.edit',compact('task'));
     }
 
     // idの値でタスクを検索して取得
@@ -155,7 +155,7 @@ class TasksController extends Controller
     //ログインのチェック       
     function update(Task$task){
     $this->checkMyData($task);
-    return view("tasks.update",compact("task"));
+    return view('tasks.update',compact('task'));
     }
     
     // バリデーション
@@ -189,7 +189,7 @@ class TasksController extends Controller
     //ログインのチェック       
     function destroy(Task$task){
     $this->checkMyData($task);
-    return view("tasks.destroy",compact("task"));
+    return view('tasks.destroy',compact('task'));
     }
         
     // idの値でタスクを検索して取得
