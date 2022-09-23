@@ -135,11 +135,15 @@ class TasksController extends Controller
     $task = Task::findOrFail($id);
 
     // タスク編集ビューでそれを表示
+    // ログインユーザー = タスク作成者なら編集画面へ
+    if (\Auth::id() === $task->user_id) {
     return view('tasks.edit', [
     'task' => $task,
         ]);
+    // 編集画面に入れなかった場合はトップページへ
+    return redirect('/');
     }
-
+ }
     /**
      * Update the specified resource in storage.
      *
@@ -158,7 +162,7 @@ class TasksController extends Controller
     return view('tasks.update',compact('task'));
     }
     
-    // バリデーション
+     // バリデーション
     $request->validate([
     'content' => 'required',
     'status' => 'required|max:10',   // 追加
@@ -168,14 +172,20 @@ class TasksController extends Controller
     $task = Task::findOrFail($id);
     
     // タスクを更新
+    // ログインユーザー = タスク作成者なら編集処理へ
+    if (\Auth::id() === $task->user_id) {
     $task->content = $request->content;
     $task->status = $request->status;    // 追加
     $task->save();
-
+    }
     // トップページへリダイレクトさせる
     return redirect('/');
     }
+}
+    
+    
 
+   
     /**
      * Remove the specified resource from storage.
      *
@@ -205,5 +215,5 @@ class TasksController extends Controller
     // トップページへリダイレクトさせる
     return redirect('/');
     }
- }
+ 
 }
