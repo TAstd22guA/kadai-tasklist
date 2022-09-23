@@ -186,11 +186,7 @@ class TasksController extends Controller
     // deleteでtasks/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-    //ログインのチェック       
-    function destroy(Task$task){
-    $this->checkMyData($task);
-    return view('tasks.destroy',compact('task'));
-        
+
     // idの値でタスクを検索して取得
     $task = Task::findOrFail($id);
    
@@ -202,5 +198,5 @@ class TasksController extends Controller
     // トップページへリダイレクトさせる
     return back();
     }
- }
+ 
 }
