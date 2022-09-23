@@ -186,17 +186,24 @@ class TasksController extends Controller
     // deleteでtasks/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-
+    //ログインのチェック       
+    function destroy(Task$task){
+    $this->checkMyData($task);
+    return view('tasks.destroy',compact('task'));
+        
     // idの値でタスクを検索して取得
     $task = Task::findOrFail($id);
    
      // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
-    if (\Auth::id() === $$task->user_id) {
-        $$task->delete();
+    if (\Auth::id() === $task->user_id) {
+        $task->delete();
     }
    
+    // タスクを削除
+    $task->delete();
+
     // トップページへリダイレクトさせる
-    return back();
+    return redirect('/');
     }
- 
+ }
 }
