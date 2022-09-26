@@ -107,7 +107,7 @@ class TasksController extends Controller
     'task' => $task,
         ]);
     }
-    return redirect('/login');
+    return redirect();
     }
 
     /**
@@ -131,7 +131,7 @@ class TasksController extends Controller
         'task' => $task,
         ]);
     // 編集画面に入れなかった場合はトップページへ
-        return redirect('/login');
+        return redirect();
     }
  }
     /**
@@ -163,7 +163,7 @@ class TasksController extends Controller
         $task->save();
     }
     // トップページへリダイレクトさせる
-        return redirect('/login');
+        return redirect();
     }
 
     
@@ -189,6 +189,6 @@ class TasksController extends Controller
     $task->delete();
     }
     // トップページへリダイレクトさせる
-    return redirect('/login');
+    return redirect();
     }
 }
