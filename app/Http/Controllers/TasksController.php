@@ -130,10 +130,11 @@ class TasksController extends Controller
         return view('tasks.edit', [
         'task' => $task,
         ]);
+    }
     // 編集画面に入れなかった場合はトップページへ
         return redirect('/login');
     }
- }
+ 
     /**
      * Update the specified resource in storage.
      *

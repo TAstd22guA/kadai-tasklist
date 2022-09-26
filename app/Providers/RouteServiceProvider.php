@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/https://task-list-22set.herokuapp.com/login';
+    public const HOME = '/login';
 
     /**
      * Define your route model bindings, pattern filters, etc.
