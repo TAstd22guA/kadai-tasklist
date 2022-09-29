@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Task;
+use App\User; // 追加
+
 use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
@@ -29,13 +31,7 @@ class TasksController extends Controller
     // getでtasks/にアクセスされた場合の「一覧表示処理」
     public function index()
     {
-        // タスク一覧を取得
-        //$tasks = Task::all();
-        // タスク一覧ビューでそれを表示
-        //return view('tasks.index', [
-        //    'tasks' => $tasks,
-        //]);
-        
+
         $tasks = Auth::user() -> tasks;
         return view('tasks.index',compact('tasks'));
     }
@@ -45,8 +41,19 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     
-     
+    
+    
+    public function allindex()
+    {
+
+        // タスク一覧を取得
+        $tasks = Task::all();
+  
+        return view('tasks.allindex', ['tasks' => $tasks]);
+
+    }
+    
+
     // getでtasks/createにアクセスされた場合の「新規登録画面表示処理」
     public function create()
     {

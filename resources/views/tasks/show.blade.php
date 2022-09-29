@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>id = {{ $task->id }} のタスク詳細ページ</h1>
+    <h1>id = {{ $task->id }} のプラン詳細ページ</h1>
 
     <table class="table table-bordered">
         <tr>
@@ -10,22 +10,24 @@
             <td>{{ $task->id }}</td>
         </tr>
         <tr>
-            <th>タスク</th>
+            <th>プラン</th>
             <td>{{ $task->content }}</td>
         </tr>
         <tr>
-            <th>ステータス</th>
+            <th>作業内容</th>
             <td>{{ $task->status }}</td>
         </tr>
 
     </table>
 
-    {{-- タスク編集ページへのリンク --}}
-    {!! link_to_route('tasks.edit', 'このタスクを編集', ['task' => $task->id], ['class' => 'btn btn-light']) !!}
+　　<table>
+    <td>{!! link_to_route('tasks.edit', 'このプランを編集', ['task' => $task->id], ['class' => 'btn btn-secondary']) !!}</td>
+    <td>{!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
+          {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
+          {!! Form::close() !!}
+    </td>
+    <td><button class="btn btn-primary" onclick="history.back(-1)">戻る</button></td>
+ 　 </table>
 
-    {{-- タスク削除フォーム --}}
-    {!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
-        {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
-    {!! Form::close() !!}
 
 @endsection

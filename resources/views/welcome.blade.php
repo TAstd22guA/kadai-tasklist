@@ -6,7 +6,7 @@
     @else
         <div class='center jumbotron'>
             <div class='text-center'>
-                <h1>Welcome to Taskbard</h1>
+                <h1>Welcome to PlanBard</h1>
                 {{-- ユーザ登録ページへのリンク --}}
                 {!! link_to_route('signup.get', 'Sign up now!', [], ['class' => 'btn btn-lg btn-primary']) !!}
             </div>

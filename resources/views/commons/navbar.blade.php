@@ -1,7 +1,7 @@
 <header class='mb-4'>
-    <nav class='navbar navbar-expand-sm navbar-dark bg-dark'>
+    <nav class='navbar navbar-expand-sm navbar-dark bg-secondary'>
         {{-- トップページへのリンク --}}
-        <a class='navbar-brand' href='/'>Taskbard</a>
+        <a class='navbar-brand' href='/'>PlanBard</a>
 
         <button type='button' class='navbar-toggler' data-toggle='collapse' data-target='#nav-bar'>
             <span class='navbar-toggler-icon'></span>
